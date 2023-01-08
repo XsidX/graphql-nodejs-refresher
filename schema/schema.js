@@ -26,6 +26,14 @@ const hobbiesData = [
   { id: '5', title: 'Dancing', description: 'Dancing description' }
 ];
 
+const postsData = [
+  { id: '1', comment: 'This is a comment', userId: '1' },
+  { id: '2', comment: 'This is comment 2', userId: '2' },
+  { id: '3', comment: 'This is a comment 3', userId: '2' },
+  { id: '4', comment: 'This is a comment 4',userId: '2' },
+  { id: '5', comment: 'This is a comment 5', userId: '3' }
+];
+
 
 // Create types
 const UserType = new GraphQLObjectType({
@@ -45,7 +53,13 @@ const HobbyType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
-    description: { type: GraphQLString }
+    description: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return data.find((user) => user.id === parent.userId);
+      }
+    }
   })
 })
 
@@ -55,16 +69,14 @@ const PostType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     comment: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return data.find((user) => user.id === parent.userId);
+      }
+    }
   })
 })
-
-const postsData = [
-  { id: '1', comment: 'This is a comment' },
-  { id: '2', comment: 'This is comment 2' },
-  { id: '3', comment: 'This is a comment 3' },
-  { id: '4', comment: 'This is a comment 4' },
-  { id: '5', comment: 'This is a comment 5' }
-];
 
 // Root query
 const RootQuery = new GraphQLObjectType({
@@ -93,7 +105,7 @@ const RootQuery = new GraphQLObjectType({
     },
     post: {
       type: PostType,
-      args: { id: { type: GraphQLString } },
+      args: { id: { type: GraphQLID } },
 
       resolve(parent, args) {
         // Code to get data from db / other source
