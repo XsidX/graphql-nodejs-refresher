@@ -2,6 +2,7 @@ const graphql = require('graphql');
 const {
   GraphQLObjectType,
   GraphQLSchema,
+  GraphQLList,
   GraphQLString,
   GraphQLID,
   GraphQLInt,
@@ -43,7 +44,20 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
-    profession: { type: GraphQLString }
+    profession: { type: GraphQLString },
+
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve(parent, args) {
+        return postsData.filter((post) => post.userId === parent.id);
+      }
+    },
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve(parent, args) {
+        return hobbiesData.filter((hobby) => hobby.userId === parent.id);
+      }
+    }
   }),
 });
 
