@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const MSchema = mongoose.Schema
 
-mongoose.set("useFindAndModify", false)
+mongoose.set('strictQuery', false);
 
 const userSchema = new MSchema({
   name: String,

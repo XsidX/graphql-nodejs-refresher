@@ -13,7 +13,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }));
 
-mongoose.connect(`mongodb+srv://${process.env.mongoUserName}:${process.env.mongoUserPassword}@graphql-cluster.8dlpxr5.mongodb.net/${process.env.mongoUserName}?retryWrites=true&w=majority`,
+mongoose.connect(`mongodb+srv://${process.env.mongoUserName}:${process.env.mongoUserPassword}@graphql-cluster.8dlpxr5.mongodb.net/?retryWrites=true&w=majority`,
  { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
   app.listen({ port }, () => {
     console.log(`Server is running on port ${port}`);

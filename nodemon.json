@@ -1,6 +1,5 @@
 {
   "env": {
-    "mongoDatabase": "test",
     "mongoUserName": "sid",
     "mongoUserPassword": "h2ElHwywotlf2LmY"
   }

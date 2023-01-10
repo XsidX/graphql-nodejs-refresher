@@ -8,35 +8,40 @@ const {
   GraphQLInt,
 } = graphql;
 
-//dummy data
+const User = require('../model/user')
+const Post = require('../model/post')
+const Hobby = require('../model/hobby')
 
-const usersData = [
-  { id: '1', name: 'Latifah', age: 21, profession: "Rich" },
-  {id: '2', name: 'Sid', age: 22, profession: "SWE" },
-  {id: '3', name: 'Idris', age: 23, profession: "Teacher" },
-  {id: '4', name: 'John', age: 24, profession: "Doctor" },
-  {id: '5', name: 'Lotus', age: 25, profession: "Baker" },
+// //dummy data
 
-];
+// const usersData = [
+//   { id: '1', name: 'Latifah', age: 21, profession: "Rich" },
+//   {id: '2', name: 'Sid', age: 22, profession: "SWE" },
+//   {id: '3', name: 'Idris', age: 23, profession: "Teacher" },
+//   {id: '4', name: 'John', age: 24, profession: "Doctor" },
+//   {id: '5', name: 'Lotus', age: 25, profession: "Baker" },
 
-const hobbiesData = [
-  { id: '1', title: 'Programming', description: 'Programming description' },
-  { id: '2', title: 'Reading', description: 'Reading description' },
-  { id: '3', title: 'Swimming', description: 'Swimming description' },
-  { id: '4', title: 'Singing', description: 'Singing description' },
-  { id: '5', title: 'Dancing', description: 'Dancing description' }
-];
+// ];
 
-const postsData = [
-  { id: '1', comment: 'This is a comment', userId: '1' },
-  { id: '2', comment: 'This is comment 2', userId: '2' },
-  { id: '3', comment: 'This is a comment 3', userId: '2' },
-  { id: '4', comment: 'This is a comment 4',userId: '2' },
-  { id: '5', comment: 'This is a comment 5', userId: '3' }
-];
+// const hobbiesData = [
+//   { id: '1', title: 'Programming', description: 'Programming description' },
+//   { id: '2', title: 'Reading', description: 'Reading description' },
+//   { id: '3', title: 'Swimming', description: 'Swimming description' },
+//   { id: '4', title: 'Singing', description: 'Singing description' },
+//   { id: '5', title: 'Dancing', description: 'Dancing description' }
+// ];
+
+// const postsData = [
+//   { id: '1', comment: 'This is a comment', userId: '1' },
+//   { id: '2', comment: 'This is comment 2', userId: '2' },
+//   { id: '3', comment: 'This is a comment 3', userId: '2' },
+//   { id: '4', comment: 'This is a comment 4',userId: '2' },
+//   { id: '5', comment: 'This is a comment 5', userId: '3' }
+// ];
 
 
 // Create types
+
 const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'Documentation for user...',
@@ -166,13 +171,13 @@ const Mutation = new GraphQLObjectType({
       },
 
       resolve(parent, args) {
-        let user = {
+        let user = User({
           name: args.name,
           age: args.age,
           profession: args.profession
-        }
+        })
 
-        return user;
+        return user.save();
       }
     },
     createPost: {
@@ -184,12 +189,12 @@ const Mutation = new GraphQLObjectType({
       },
 
       resolve(parent, args) {
-        let post = {
+        let post = Post({
           comment: args.comment,
           userId: args.userId
-        }
+        })
 
-        return post;
+        return post.save();
       }
     },
     createHobby: {
@@ -202,13 +207,13 @@ const Mutation = new GraphQLObjectType({
       },
 
       resolve(parent, args) {
-        let hobby = {
+        let hobby = Hobby({
           title: args.title,
           description: args.description,
           userId: args.userId
-        }
+        })
 
-        return hobby;
+        return hobby.save();
       }
     }
   }
