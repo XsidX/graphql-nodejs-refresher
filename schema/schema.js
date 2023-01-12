@@ -182,6 +182,31 @@ const Mutation = new GraphQLObjectType({
         return user.save();
       }
     },
+
+    //Update user
+
+    updateUser: {
+      type: UserType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLString) },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        profession: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return (updateUser = User.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              name: args.name,
+              age: args.age,
+              profession: args.profession
+            }
+          },
+          { new: true } // send back the updated objectType
+        ));
+      }
+    },
     createPost: {
       type: PostType,
       args: {
@@ -197,6 +222,27 @@ const Mutation = new GraphQLObjectType({
 
         return post.save();
       }
+    },
+    updatePost: {
+      type: PostType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLString) },
+        comment: { type: new GraphQLNonNull(GraphQLString) },
+      },
+
+      resolve(parent, args) {
+        return (updatePost = Post.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              comment: args.comment,
+              userId: args.userId
+            }
+          },
+          { new: true } // send back the updated objectType
+        ));
+      }
+
     },
     createHobby: {
       type: HobbyType,
@@ -215,9 +261,31 @@ const Mutation = new GraphQLObjectType({
 
         return hobby.save();
       }
+    },
+    updateHobby: {
+      type: HobbyType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLString) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLString },
+      },
+
+      resolve(parent, args) {
+        return (updateHobby = Hobby.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              title: args.title,
+              description: args.description,
+              userId: args.userId
+            }
+          },
+          { new: true } // send back the updated objectType
+        ));
+      }
     }
   }
-})
+});
   
 module.exports = new GraphQLSchema({
   query: RootQuery,
