@@ -54,13 +54,15 @@ const UserType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        return postsData.filter((post) => post.userId === parent.id);
+        // return postsData.filter((post) => post.userId === parent.id);
+        return Post.find({userId: parent.id})
       }
     },
     hobbies: {
       type: new GraphQLList(HobbyType),
       resolve(parent, args) {
-        return hobbiesData.filter((hobby) => hobby.userId === parent.id);
+        // return hobbiesData.filter((hobby) => hobby.userId === parent.id);
+        return Hobby.find({userId: parent.id})
       }
     }
   }),
@@ -76,7 +78,7 @@ const HobbyType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent, args) {
-        return usersData.find((user) => user.id === parent.userId);
+        return User.findById(parent.userId);
       }
     }
   })
@@ -91,7 +93,7 @@ const PostType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent, args) {
-        return usersData.find((user) => user.id === parent.userId);
+        return User.findById(parent.userId);
       }
     }
   })
@@ -109,7 +111,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         // Code to get data from db / other source
 
-      return usersData.find((user) => user.id === args.id);
+      return User.findById(args.id);
       },
     },
     users: {
@@ -125,7 +127,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         // Code to get data from db / other source
 
-      return hobbiesData.find((hobby) => hobby.id === args.id);
+      return Hobby.findById(args.id);
       },
     },
     hobbies: {
@@ -141,7 +143,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         // Code to get data from db / other source
 
-      return postsData.find((post) => post.id === args.id);
+      return Post.findById(args.id)
       },
   },
   
